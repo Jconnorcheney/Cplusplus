@@ -16,7 +16,8 @@ int main() {
      * regular-expression-for-valid-filename
      * regex for proper windows filename, 10 upvote comment.*/
     regex fileNameRegex("^[a-zA-Z0-9](?:[a-zA-Z0-9 ._-]*[a-zA-Z0-9])?$");
-
+    /*Program only functions properly when the same is in the same dir
+     * as the executable*/
     cout << "CPP to HTML file converter.\n\n";
     cout << "Enter the name of the .cpp file you wish to convert.\n"
             "Please use the file name without the extension:" << endl;
@@ -31,7 +32,6 @@ int main() {
     /*variables for .ccp and .html files*/
     outputFileName = inputFileName + ".html";
     inputFileName = inputFileName + ".cpp";
-
 
     try{
         inStream.open(inputFileName.c_str());
@@ -57,22 +57,21 @@ int main() {
     outStream << "<PRE>" << endl;
     htmlConversionMethod(inStream,outStream);
     outStream << "</PRE>" << endl;
-    /*Originally had it changing the file from cpp to html, much easier to
-     * demonstrate just making a new file.*/
-//    rename(inputFileName.c_str(),outputFileName.c_str());
 
+    /*close up both streams*/
     inStream.close();
     outStream.close();
 
     cout << outputFileName + " Created and Altered.";
     return 0;
 }
+/*method takes the current character in the stream and puts it into the
+ * new file, replacing based on business rule*/
 void htmlConversionMethod(ifstream& inStream, ofstream& outStream)
 {
     char currentChar;
-
     inStream.get(currentChar);
-
+    /*loops until the whole file has been read*/
     while (!inStream.eof())
     {
         if (currentChar == '<'){
@@ -86,5 +85,4 @@ void htmlConversionMethod(ifstream& inStream, ofstream& outStream)
         }
         inStream.get(currentChar);
     }
-
 }
